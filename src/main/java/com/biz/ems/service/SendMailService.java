@@ -2,6 +2,7 @@ package com.biz.ems.service;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -13,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.biz.ems.mapper.EmailDao;
 import com.biz.ems.model.EmailVO;
 
 @Service
@@ -23,6 +25,9 @@ public class SendMailService {
 	
 	@Autowired
 	ServletContext context;
+	
+	@Autowired
+	EmailDao eDao;
 	
 	private final String uploadFolder = "c:/bizwork/upload/";
 	
@@ -85,5 +90,33 @@ public class SendMailService {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public int insert(EmailVO emailVO) {
+		
+		int ret = eDao.insert(emailVO);
+		
+		return ret;
+	}
+
+	public List<EmailVO> emailList() {
+		
+		List<EmailVO> emailList =eDao.selectAll();
+		
+		return emailList;
+	}
+
+	public EmailVO getContent(long ems_seq) {
+		
+		EmailVO emailVO = eDao.findBySeqems(ems_seq);
+		
+		return emailVO;
+	}
+
+	public int update(EmailVO emailVO) {
+		
+		int ret = eDao.update(emailVO);
+		
+		return ret;
 	}
 }

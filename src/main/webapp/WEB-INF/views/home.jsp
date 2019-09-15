@@ -23,6 +23,12 @@
 			<c:when test="${BODY == 'WRITE'}">
 				<%@ include file="/WEB-INF/views/body/ems/write.jspf" %>
 			</c:when>
+			<c:when test="${BODY == 'EMAILLIST'}">
+				<%@ include file="/WEB-INF/views/body/ems/list.jspf" %>
+			</c:when>
+			<c:when test="${BODY == 'EMS_VIEW'}">
+				<%@ include file="/WEB-INF/views/body/ems/view.jspf" %>
+			</c:when>
 			<c:otherwise>
 				<%@ include file="/WEB-INF/views/body/ems/list.jspf" %>
 			</c:otherwise>	

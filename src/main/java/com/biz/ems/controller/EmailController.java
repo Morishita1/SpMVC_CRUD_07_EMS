@@ -1,5 +1,7 @@
 package com.biz.ems.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +32,11 @@ public class EmailController {
 	}
 	
 	
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model) {
-
+		List<EmailVO> emailList = xMailService.emailList();
+		model.addAttribute("LIST",emailList);
+		model.addAttribute("BODY","EMAILLIST");
 		return "home";
 
 	}
@@ -59,8 +63,33 @@ public class EmailController {
 		emailVO.setEms_file1(file_name1);
 		String file_name2 = fService.fileUp(file2);
 		emailVO.setEms_file2(file_name2);
+		
+		System.out.println(emailVO.toString());
+		xMailService.insert(emailVO);
 		xMailService.sendMail(emailVO);
 		
 		return "home";
+	}
+	
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public String view(@RequestParam long ems_seq, Model model) {
+		EmailVO emailVO = xMailService.getContent(ems_seq);
+		model.addAttribute("BBsVO",emailVO);
+		model.addAttribute("BODY","EMS_VIEW");
+		return "home";
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public String update(@RequestParam long ems_seq, Model model) {
+		EmailVO emailVO = xMailService.getContent(ems_seq);
+		
+		model.addAttribute("emailVO",emailVO);
+		model.addAttribute("BODY","WRITE");
+		return "home";
+	}
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(EmailVO emailVO, Model model) {
+		int ret = xMailService.update(emailVO);
+		return "redirect:ems/list";
 	}
 }

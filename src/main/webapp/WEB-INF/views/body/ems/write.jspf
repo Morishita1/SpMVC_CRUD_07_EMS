@@ -104,6 +104,12 @@ div.in-box iframe {
 			<form:errors path="ems_from_email" class="in-box-error" />
 		</div>
 		<div class="in-box">
+			<label for="ems_from_email">보내는 사람</label>
+			<form:input type="text" id="ems_to_name" path="ems_to_name" /><br>
+			<br />
+			<form:errors path="ems_to_name" class="in-box-error" />
+		</div>
+		<div class="in-box">
 			<label for="ems_to_email">받는 Email</label>
 			<form:input type="email" id="ems_to_email" path="ems_to_email" /><br>
 			<br />

@@ -2,8 +2,10 @@ package com.biz.ems.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 
 import com.biz.ems.model.EmailVO;
 
@@ -22,9 +24,16 @@ public interface EmailDao {
 	 */
 	public List<EmailVO> fileByFromAndTo(@Param("ems_from_email") String ems_from_email,@Param("ems_to_email")  String ems_to_email);
 	
+	@SelectKey(keyProperty = "ems_seq", statement = " SELECT SEQ_EMS.NEXTVAL FROM DUAL ", resultType = Long.class,before = true)
+	@InsertProvider(type = EmailSQL.class, method = "Email_insert_sql")
 	public int insert(EmailVO emailVO);
+	
+	@InsertProvider(type = EmailSQL.class, method = "Email_update_sql")
 	public int update(EmailVO emailVO);
 	public int delete(long ems_seq);
+	
+	@Select(" SELECT * FROM tbl_ems WHERE ems_seq = #{ems_seq}")
+	public EmailVO findBySeqems(long ems_seq);
 	
 	
 }
