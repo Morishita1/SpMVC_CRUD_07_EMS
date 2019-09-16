@@ -5,7 +5,7 @@
 <script>
 $(function() {
 	$(".bbs-row").click(function() {
-		let bbs_seq = $(this).attr("data-seq")
+		let ems_seq = $(this).attr("data-seq")
 		location.href="${rootPath}/ems/view?ems_seq=" + ems_seq
 	})
 })

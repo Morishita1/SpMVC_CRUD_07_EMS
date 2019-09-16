@@ -88,8 +88,13 @@ public class EmailController {
 		return "home";
 	}
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(EmailVO emailVO, Model model) {
+	public String update(EmailVO emailVO,@RequestParam("file1") MultipartFile file1,@RequestParam("file2") MultipartFile file2, Model model) {
+		String file_name1 = fService.fileUp(file1);
+		emailVO.setEms_file1(file_name1);
+		String file_name2 = fService.fileUp(file2);
+		emailVO.setEms_file2(file_name2);
 		int ret = xMailService.update(emailVO);
-		return "redirect:ems/list";
+		xMailService.sendMail(emailVO);
+		return "home";
 	}
 }
